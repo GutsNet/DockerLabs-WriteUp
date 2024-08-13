@@ -13,7 +13,7 @@
 - [1. Despliegue](#desplegando-la-máquina-vulnerable)
 - [2. Escaneo de puertos](#escaneo-de-puertos-con-nmap)
 - [3. Enumeración de Directorios](#enumeración-de-directorios-con-gobuster)
-- [4. Visualización de Contenido](#visualización-de-contenido-con-curl)
+- [4. Visualización de Contenido](#visualización-de-contenido)
 - [5. Ataque de fuerza bruta](#fuerza-bruta-ssh-con-hydra)
 - [6. Acceso con SSH](#acceso-al-servidor-ssh)
 - [7. Busqueda de privilegios](#enumeración-de-privilegios-sudo)
@@ -111,7 +111,7 @@ Este comando encuentra dos archivos en el servidor web: `index.html` y `secret.p
 
 ---
 
-## Visualización de Contenido con cURL
+## Visualización de Contenido
 
 ```python
 ~/Trust ᐅ curl http://172.18.0.2/secret.php
