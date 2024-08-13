@@ -71,7 +71,13 @@ Este comando revela que los puertos `22` (SSH) y `80` (HTTP) están abiertos, co
 ```python
 PORT   STATE SERVICE VERSION
 22/tcp open  ssh     OpenSSH 9.2p1 Debian 2+deb12u2 (protocol 2.0)
+| ssh-hostkey:
+|   256 19:a1:1a:42:fa:3a:9d:9a:0f:ea:91:7f:7e:db:a3:c7 (ECDSA)
+|_  256 a6:fd:cf:45:a6:95:05:2c:58:10:73:8d:39:57:2b:ff (ED25519)
 80/tcp open  http    Apache httpd 2.4.57 ((Debian))
+|_http-title: Apache2 Debian Default Page: It works
+|_http-server-header: Apache/2.4.57 (Debian)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 
 **Explicación de parámetros:**
@@ -115,6 +121,18 @@ Este comando encuentra dos archivos en el servidor web: `index.html` y `secret.p
 
 ```html
 <!DOCTYPE html>
+<html lang="es">
+<head>
+     ...
+     ...
+</head>
+<body>
+    <div class="container">
+        <h1>Hola Mario,</h1>
+        <p>Esta web no se puede hackear.</p>
+    </div>
+</body>
+</html>
 ```         	                                                                                                                	              
 
 El comando `curl` se utiliza para ver el contenido del archivo `secret.php`, el cual es HTML, o bien, la otra y la mejor opción, es abrir el archivo desde el navegador (http://172.18.0.2/secret.php). En este caso, lo hice a través de comandos por comodidad y para dar un vistazo.
