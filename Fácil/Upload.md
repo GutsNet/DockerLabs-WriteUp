@@ -18,7 +18,7 @@
 ## Desplegando la Máquina Vulnerable
 
 ```python
-~/Upload ᐅ sudo bash auto_deploy.sh trust.tar
+~/Upload ᐅ sudo bash auto_deploy.sh upload.tar
 ```
 Este comando ejecuta un script de bash (`auto_deploy.sh`) que despliega la máquina vulnerable a partir del archivo `upload.tar`.
 
