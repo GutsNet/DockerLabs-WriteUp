@@ -52,4 +52,25 @@ rtt min/avg/max/mdev = 0.089/97.292/194.496/97.203 ms
 ```
 ---
 
-## Escaneo de puertos con Nmap
+## Escaneo de Puertos con Nmap
+
+```python
+~/Upload ᐅ nmap -p- -sCV 172.17.0.2
+```
+Este comando revela que el puertos `80` (HTTP) está abiertos, con `Apache`.
+
+**Salida:**
+
+```python
+PORT   STATE SERVICE VERSION
+80/tcp open  http    Apache httpd 2.4.52 ((Ubuntu))
+|_http-title: Upload here your file
+|_http-server-header: Apache/2.4.52 (Ubuntu)
+```
+
+**Explicación de parámetros:**
+
+- `-p-`: Escanea todos los puertos (del 1 al 65535).
+- `-sCV`: Realiza un escaneo con detección de versión (`-sV`) y utiliza scripts básicos (`-sC`) para obtener más información del servicio.
+
+---
