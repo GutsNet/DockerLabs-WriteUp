@@ -4,4 +4,5 @@
 | #   | Máquina | Dificultad   | Autor      | Fecha de Creación | Guía de Solución                                     |
 |-----|---------|--------------|------------|-------------------|-----------------------------------------------------|
 | 1   | Trust   | 🔵 Muy Fácil  | [El Pingüino de Mario](https://www.youtube.com/channel/UCGLfzfKRUsV6BzkrF1kJGsg)    | 02/04/2024  | [Ver Guía](https://github.com/GutsNet/DockerLabs-WriteUp/blob/main/Muy%20F%C3%A1cil/Trust.md) |
+| 2   | Upload   | 🟢 Fácil  | [El Pingüino de Mario](https://www.youtube.com/channel/UCGLfzfKRUsV6BzkrF1kJGsg)    | 09/04/2024  | [Ver Guía](https://github.com/GutsNet/DockerLabs-WriteUp/blob/main/F%C3%A1cil/Upload.md) |
 
