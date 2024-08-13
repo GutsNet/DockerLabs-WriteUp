@@ -113,6 +113,8 @@ Este comando encuentra dos archivos en el servidor web: `index.html` y `secret.p
 
 ## Visualización de Contenido
 
+#### Visualización con cURL
+
 ```python
 ~/Trust ᐅ curl http://172.18.0.2/secret.php
 ```
@@ -136,6 +138,16 @@ Este comando encuentra dos archivos en el servidor web: `index.html` y `secret.p
 ```         	                                                                                                                	              
 
 El comando `curl` se utiliza para ver el contenido del archivo `secret.php`, el cual es HTML, o bien, la otra y la mejor opción, es abrir el archivo desde el navegador (http://172.18.0.2/secret.php). En este caso, lo hice a través de comandos por comodidad y para dar un vistazo.
+
+#### Visualización en el navegador (recomendable)
+
+- **http://172.18.0.2/index.html** Plantilla predeterminada de Apache (sin cambios)
+
+  ![image](https://github.com/user-attachments/assets/311ad563-62e7-46b4-985e-c3318f7abc04)
+
+- **http://172.18.0.2/secret.php** Posible usuario para acceder
+
+  ![image](https://github.com/user-attachments/assets/7bd740d1-277e-4ba6-b8ea-8f0a11a57780)
 
 ---
 
