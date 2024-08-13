@@ -74,3 +74,30 @@ PORT   STATE SERVICE VERSION
 - `-sCV`: Realiza un escaneo con detección de versión (`-sV`) y utiliza scripts básicos (`-sC`) para obtener más información del servicio.
 
 ---
+
+## Enumeración de Directorios con Gobuster
+
+```python
+~/Upload ᐅ gobuster dir -w $seclists/Discovery/Web-Content/big.txt -u http://172.17.0.2:80/ -t 200 --no-error
+```
+
+**Salida:**
+
+```python
+...
+/.htpasswd            (Status: 403) [Size: 275]
+/.htaccess            (Status: 403) [Size: 275]
+/server-status        (Status: 403) [Size: 275]
+/uploads              (Status: 301) [Size: 310] [--> http://172.17.0.2/uploads/]
+...
+```
+
+**Explicación de parámetros:**
+
+- `dir`: Modo de enumeración de directorios.
+- `-w`: Especifica la wordlist a utilizar.
+- `-u`: URL objetivo a escanear.
+- `-t 200`: Define el número de hilos a usar (200 en este caso).
+- `--no-error`: Oculta los errores emitidos por Gobuster.
+
+---
