@@ -3,7 +3,7 @@
 
 <a href="https://github.com/GutsNet"><img title="Author" src="https://img.shields.io/badge/Author-GutsNet-red.svg?style=for-the-badge&logo=github"></a>
 
-**Dificultad:** �� *Fácil*
+**Dificultad:** 🟢 *Fácil*
 
 **Autor:** *[El Pingüino de Mario](https://www.youtube.com/channel/UCGLfzfKRUsV6BzkrF1kJGsg)*
 
