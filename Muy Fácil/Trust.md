@@ -1,11 +1,13 @@
 
 # 1. Máquina: Trust  
 
-*Write Up*
-
 <a href="https://github.com/GutsNet"><img title="Author" src="https://img.shields.io/badge/Author-GutsNet-red.svg?style=for-the-badge&logo=github"></a>
 
-**Dificultad:** 🔵 Muy Fácil
+**Dificultad:** 🔵 *Muy Fácil*
+
+**Autor:** *[El Pingüino de Mario](https://www.youtube.com/channel/UCGLfzfKRUsV6BzkrF1kJGsg)*
+
+**Fecha de creación:** *02/04/2024*
 
 **Proceso:**
 - [1. Despliegue](#desplegando-la-máquina-vulnerable)
