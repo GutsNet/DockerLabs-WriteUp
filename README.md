@@ -1,4 +1,4 @@
-# [DockerLabs](https://dockerlabs.es/) WritesUp
+# [DockerLabs](https://dockerlabs.es/) WriteUps
 <a href="https://github.com/GutsNet"><img title="Author" src="https://img.shields.io/badge/Author-GutsNet-red.svg?style=for-the-badge&logo=github"></a>
 
 | #   | Máquina | Dificultad   | Autor      | Fecha de Creación | Guía de Solución                                     |
