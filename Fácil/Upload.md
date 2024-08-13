@@ -57,7 +57,7 @@ rtt min/avg/max/mdev = 0.089/97.292/194.496/97.203 ms
 ```python
 ~/Upload ᐅ nmap -p- -sCV 172.17.0.2
 ```
-Este comando revela que el puertos `80` (HTTP) está abiertos, con `Apache`.
+Este comando revela que el puertos `80` (HTTP) está abierto ejecutando `Apache`.
 
 **Salida:**
 
