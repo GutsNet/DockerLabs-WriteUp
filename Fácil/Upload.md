@@ -50,6 +50,7 @@ PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
 2 packets transmitted, 2 received, 0% packet loss, time 1010ms
 rtt min/avg/max/mdev = 0.089/97.292/194.496/97.203 ms
 ```
+
 ---
 
 ## Escaneo de Puertos con Nmap
@@ -83,8 +84,7 @@ PORT   STATE SERVICE VERSION
 
   ![image](https://github.com/user-attachments/assets/83047ec1-69f6-49c1-9058-1d2083f8b4d2)
 
- 
-
+---
 
 ## Enumeración de Directorios con Gobuster
 
@@ -116,8 +116,6 @@ De acuerdo a la enumeración de directorios, es posible acceder la ruta `/upload
 #### **http://172.17.0.2/uploads**
 
 ![image](https://github.com/user-attachments/assets/f67412f7-3bfc-41ae-affa-4ecdfe12fabb)
-
-
 
 ---
 
