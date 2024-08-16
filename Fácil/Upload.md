@@ -165,7 +165,13 @@ Antes de ponerlo a prueba, es necesario subir el script a el servidor.
 
 #### Proceso:
 
-- **Fase de Preparación**: El atacante inicia un listener en su máquina en el puerto 6969 utilizando el comando `nc -lvnp 6969`. Esto prepara la máquina atacante para recibir la conexión de la reverse shell.
+- **Fase de Preparación**: El atacante inicia un listener en su máquina en el puerto 6969 utilizando el comando `nc -lvnp 6969` de la herramienta Netcat. Esto prepara la máquina atacante para recibir la conexión de la reverse shell.
+  - `nc`: Esta es la abreviatura de "netcat", que se utiliza para leer y escribir datos a través de conexiones de red. 
+  - `-l`: Indica a netcat que debe entrar en modo escucha, es decir, esperará conexiones entrantes en el puerto que se deseé.
+  - `-v`: Activa el modo detallado. Muestra información adicional sobre la conexión, como la dirección IP y el puerto del cliente que se conecte.
+  - `-n`: Evita la resolución de nombres de dominio. En lugar de intentar resolver el nombre de dominio asociado a una dirección IP, se utiliza directamente la dirección IP.
+  - `-p 6969`: Esta opción especifica el número del puerto que se pondrá en escucha. 
+
 ```python
 ~/Upload ᐅ nc -lvnp 6969
 listening on [any] 6969 ...
