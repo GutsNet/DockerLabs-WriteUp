@@ -137,7 +137,7 @@ El archivo que se subirá tendrá el nombre: reverse.php
 
 - `<?php ... ?> ` :  Esto indica el inicio y el fin de un bloque de código.
 - `system($_GET['rev']);` :  En esta línea ocurre la operación principal.
-- `system()` :  Esta funcón de PHP, dicha función, ejecuta un comando directamente del sistema operativo y muestra la salida.
+- `system()` :  Esta funcón ejecuta un comando directamente del sistema operativo y muestra la salida.
 - `$_GET['rev']` :  $_GET es un array superglobal que recoge los datos enviados a través de la consulta de la URL (`?rev=comando`) usando el método GET. En este caso, está buscando un parámetro llamado `rev`. 
 
 Antes de ponerlo a prueba, es necesario subir el script a el servidor.
