@@ -12,6 +12,9 @@
 **Proceso:**
 - [1. Despliegue](#desplegando-la-máquina-vulnerable)
 - [2. Escaneo de puertos](#escaneo-de-puertos-con-nmap)
+- [3. Página principal](#visualización-de-la-página-principal)
+- [4. Enumeración de directorios](#enumeración-de-directorios-con-gobuster)
+- [5. Escalada de privilegios](#escalada-de-privilegios)
 
 ---
 
