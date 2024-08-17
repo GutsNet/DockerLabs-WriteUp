@@ -9,8 +9,11 @@
 **Fecha de creación:** *09/04/2024*
 
 **Proceso:**
-- [1. Despliegue](#desplegando-la-máquina-vulnerable)
-- [2. Escaneo de puertos](#escaneo-de-puertos-con-nmap)
+- [1. Desplegando la Máquina Vulnerable](#desplegando-la-máquina-vulnerable)
+- [2. Escaneo de Puertos con Nmap](#escaneo-de-puertos-con-nmap)
+- [3. Inyección SQL](#inyección-sql)
+- [4. Acceso con SSH](#acceso-con-ssh)
+- [5. Escalada de Privilegios](#escalada-de-privilegios)
 
 ---
 
