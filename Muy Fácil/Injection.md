@@ -57,7 +57,8 @@ rtt min/avg/max/mdev = 0.089/3.130/6.171/3.041 ms
 ```python
 ~/Injection ᐅ nmap -p- -sCV 172.17.0.2
 ```
-Este comando revela que ..
+Este comando revela que el puerto `80` está ejecutando Apache y el puerto `22` está ejecutando OpenSSH.
+De igual forma, podemos observar que, la cookie `PHPSESSID` no tiene la flag `httponly`, lo cual representa un fallo de seguridad.
 
 **Salida:**
 
@@ -83,3 +84,40 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 - `-sCV`: Realiza un escaneo con detección de versión (`-sV`) y utiliza scripts básicos (`-sC`) para obtener más información del servicio.
 
 ---
+
+## Inyección SQL
+
+#### Página principal (http://172.170.2/)
+![image](https://github.com/user-attachments/assets/1a710629-010e-4b9b-8a4a-d04398fa4bbb)
+
+La página principal es un Login (Inicio de sesión), lo primero que se puede intentar al ver un inicio de sesión y sabiendo que se trata de una web vulnerable, es realizar una inyección SQL.
+
+La inyección SQL que se utilzará será la siguiente `admin' OR 1=1 -- -`, se aplicará dentro del campo de User y en la contraseña se ingresará cualquier cosa como `password`. 
+#### Explicación
+
+  - `admin` es un valor que el atacante inserta en un campo de entrada, en este caso en el del nombre de usuario.
+  - La comilla simple `'` justo después de admin cierra el valor del nombre de usuario en la consulta SQL original.
+  - `OR 1=1` es una condición lógica añadida por el atacante. La condición `1=1` siempre es verdadera, lo que significa que esta parte   de la consulta siempre se cumplirá sin importar lo que venga antes.
+  - `--` es un operador de comentario en SQL. Todo lo que viene después de `--` en la misma línea será ignorado por la base de datos.
+  - El espacio y guión adicional ` -`, es porque en algunos casos se puede requerir un espacio después de `--` para ser considerado un comentario
+
+ Ahora bien, suponiendo que la consulta que busca un usuario en la base de datos es la siguiente:
+ ```SQL
+SELECT * FROM usuarios WHERE username = 'admin' AND password = 'password';
+ ```
+ Si insertamos la inyección SQL (`admin' OR 1=1 -- -`) en donde está el texto "admin", la consulta quedará de esta manera:
+ ```SQL
+SELECT * FROM usuarios WHERE username = 'admin' OR 1=1 -- - AND password = 'password';
+ ```
+ La consulta original que se esperaba filtrar usuarios por nombre de usuario y contraseña válidos se convierte en una consulta que siempre devuelve al menos un resultado (porque `1=1` es siempre verdadero), permitiendo al atacante "anular" la autenticación.
+
+### Aplicación de la inyección
+Los campos del login quedarán de la siguiente forma:
+
+![image](https://github.com/user-attachments/assets/76a6c541-743a-4852-82f6-8c688ff88847)
+
+Al hacer clic en "Login" y si ya inyección fue exitosa, nos redireccionará a la ruta http://172.17.0.2/acceso_valido_dylan.php, el contenido de dicha ruta, es lo que se muestra en la imagen de abajo.
+
+![image](https://github.com/user-attachments/assets/2c22cc65-55db-49ef-93f0-fbe9f9fe10cd)
+
+En la pantalla se puede apreciar el nombre `Dylan` y la contraseña `KJSDFG789FGSDF78` y, como se pudo ver en el escaneo de puertos, el servicio SSH está habilitado, por ende, podrían ayudarnos a acceder a la máquina.
