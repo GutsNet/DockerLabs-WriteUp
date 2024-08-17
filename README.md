@@ -1,5 +1,5 @@
 # [DockerLabs](https://dockerlabs.es/) WriteUps
-<a href="https://github.com/GutsNet"><img title="Author" src="https://img.shields.io/badge/Author-GutsNet-red.svg?style=for-the-badge&logo=github"></a>
+<a href="https://github.com/GutsNet"><img title="Author" src="https://img.shields.io/badge/Author-GutsNet-purple.svg?style=for-the-badge&logo=github"></a>
 
 # Máquinas resueltas
 
