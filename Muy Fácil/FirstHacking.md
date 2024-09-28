@@ -52,5 +52,27 @@ PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
 2 packets transmitted, 2 received, 0% packet loss, time 1062ms
 rtt min/avg/max/mdev = 0.045/0.055/0.066/0.010 ms
 ```
+---
+
+## Escaneo de Puertos con Nmap
+
+```python
+~/FirstHacking ᐅ nmap -p- -sV 172.17.0.2
+```
+Este comando revela que el puerto `21` (FTP) está abierto, con el servicio `vsftpd` versión `2.3.4` ejecutándose.
+
+**Salida:**
+
+```python
+PORT   STATE SERVICE VERSION
+21/tcp open  ftp     vsftpd 2.3.4
+Service Info: OS: Unix
+```
+
+**Explicación de parámetros:**
+
+- `-p-`: Escanea todos los puertos (del 1 al 65535).
+- `-sCV`: Realiza un escaneo con detección de versión (`-sV`) y utiliza scripts básicos (`-sC`) para obtener más información del servicio.
 
 ---
+
